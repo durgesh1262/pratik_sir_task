@@ -39,6 +39,25 @@ class Student(models.Model):
         else:
             self.Grade = 'E'
             return self.Grade
+    
+     def stay(self):
+        if self.per >= 90:
+            self.Status = 'distantion+'
+            return self.Status
+        elif self.per >= 80 and self.per < 90:
+            self.Status = 'paas with distantion'
+            return self.Status
+        elif self.per >= 70 and self.per < 80:
+            self.Grade = 'paas'
+            return self.Grade
+        elif self.per >= 60 and self.per < 70:
+            self.Status = 'lastly pass'
+            return self.Status
+        else:
+            self.Status = 'fail'
+            return self.Status       
+
+        
 
 
     def save(self, *args, **kwargs):
@@ -46,6 +65,8 @@ class Student(models.Model):
             self.percent=self.percentage()
         if not self.status:
             self.status= self.CalcGrade()
+            if not self.status:
+            self.status= self.stay()
         return super().save(*args, **kwargs)
        
        
